@@ -1,0 +1,96 @@
+<h1> Seja bem Vindo</h1>
+<p>Qualquer mensagem</p>
+<p>Nome: {{nome}} Idade: {{idade}}</p>
+
+// Condição para mostrar ou nao <h1> No caso recebe o true ou false em mostrar
+{{#mostrar}}
+<h1> Seja bem Vindo</h1>
+{{/mostrar}}
+
+{{#mostrar}}
+<h1> Seja bem Vindo</h1>
+{{/mostrar}}
+
+// No caso igredientes e um dicionario recebido do index.js res.render('home', obj)
+<ul>
+{{#igredientes}}
+<li>nome {{nome}}</li>
+{{/igredientes}}
+</ul>
+// Posso colocar uma alguma mensagem de aviso, caso não exista ingredientes usas ^ na {{^obj}}
+{{^igredientes}}
+<p>Nao ha ingredientes</p>
+{{/igredientes}}
+// para incluir um comentario
+{{! Aqui e um comentario}}
+
+// para varrer um array (campos sem nome .... ) so colocar um . nas {{}}
+<ul>
+{{#array}}
+<li>{{,}}</li>
+{{/array}}
+</ul>
+
+// Com o node(mustache) posso ter uma area onde tenho as views que são comuns a varias views, 
+// exemplo: cabeçarios, rodape, side, outros. 
+// Para isso crio a pasta partials na pasta view e paramentrizo isso no arquivo de configuraçao
+// do mustache 
+// DE  : app.engine('mst', mustache()); 
+// PARA: app.engine('mst', mustache(__dirname+'/views/partials/', 'mst'));
+
+// para usar um partias na em qualquer paginas use > entre {{>}}
+
+{{>header}}
+
+// template helpers
+// usado para formatar campos e mensagens para serem usadas como default ou padroes.
+// crie o arquivo helpers.js (comumente usado). No arquivo crie as mensagens
+exports.defaultPageTitle = 'ABC';
+// depois no a app.js import o arquivo. inclua
+const helpers = require(',/helpers')
+// antes da definicao das rotas
+app.use((req, res, next)=>{
+    res.locals.h = helpers;
+    res.locals.teste = 'teste 123';  // help criado na funcoa anonima
+
+    next()
+
+});
+
+
+// padrao MVC
+// M - Model
+// V - View
+// C - Controller
+
+// na pasta controller deve ser criado um arquivo para cada funcionalidade do sistema
+// ex cadastro, login, logout, pagina de cadastro, pagina de controle, pagina de perfil
+// galeria de fotos, videos,
+
+
+// middleware (sotware que funciona no meio)
+/*
+Processo de login
+- houve uma requisição
+-- validar campos (pode criar um mid para validar)
+-- autorizar o usuário (outro midw)
+
+- Resposta (controller)
+--Positiva
+--Negativa
+Existe middware global e local
+*/
+
+// flashes mensages..
+// instalar as dependencias
+ npm install cookie-parser express-session express-flash --save
+// libs para tratamento de imagem
+// multer (trata imagem) jimp (para redimensionar) uuid (dar um nome unico)
+npm install multer jimp uuid --save
+
+// Processos de login (Criaçao de usuários)
+// biblioteca passport () registro e cadastro
+npm install passport passport-local passport-local-mongoose --save
+
+// instalar lib de servidor de email do node
+npm install nodemailer --save
